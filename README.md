@@ -6,7 +6,7 @@
 4. Installing 3rd party libraries
     - Material UI : npm install @mui/material @emotion/react @emotion/styled
     - React Icons : npm install react-icons --save
-    - React Bootstrap
+    <!-- - React Bootstrap not used here -->
 5. Create components:
     - Create Page folder
     - Create component folder 

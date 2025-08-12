@@ -6,6 +6,7 @@ import ResumeGenerator from "./pages/ResumeGenerator";
 import UserForm from "./pages/UserForm";
 import History from "./pages/History";
 import PageNotFound from "./pages/PageNotFound";
+import { Routes, Route } from 'react-router-dom';
 
 
 function App() {
@@ -19,8 +20,6 @@ function App() {
       <Route path='/history' element={<History/>}/>
       <Route path='/*' element={<PageNotFound/>}/>
     </Routes>
-    
-       
     <Footer/> 
     </>
   )
