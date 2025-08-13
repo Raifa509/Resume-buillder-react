@@ -9,9 +9,9 @@ function Footer() {
   return (
     <div style={{height:'400px',backgroundColor:'black'}} className='d-flex justify-content-center align-items-center flex-column'>
       <div className='text-center text-light'>
-        <h3>Contact Us</h3>
-        <h4><MdEmail className='me-2'/>resumebuilder@gmail.com</h4>
-        <h4><FaPhoneAlt className='me-2' />9845632125</h4>
+        <h5>Contact Us</h5>
+        <h6><MdEmail className='me-2'/>resumebuilder@gmail.com</h6>
+        <h6><FaPhoneAlt className='me-2' />9845632125</h6>
         <div className="d-flex justify-content-evenly fs-4 mt-3">
       <FaWhatsapp />
       <FaFacebook />
