@@ -14,7 +14,7 @@ function Header() {
   const aboutToolTip="A Resume Builder App is an essential tool for job seekers looking to create polished and effective resumes. By combining ease of use with professional design options, these apps empower users to present their qualifications confidently and increase their chances of landing job interviews."
   return (
      <Box sx={{ flexGrow: 1}}>
-      <AppBar position="static" style={{backgroundColor:'black'}}>
+      <AppBar position="static" style={{backgroundColor:'#053d63ff'}}>
         <Toolbar>
           <IconButton
             size="large"
