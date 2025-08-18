@@ -5,13 +5,30 @@ import { Link } from "react-router-dom";
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import { IoIosDownload } from "react-icons/io";
+import { MdHistory } from "react-icons/md";
+import Edit from './Edit';
 
 
 function Preview() {
   return (
-    <div style={{marginTop:'100px'}}>
+    <div>
+      <Stack direction={'row'} sx={{ justifyContent: 'flex-end' }}>
+        <Stack direction={'row'} sx={{ alignItems: 'center' }}>
+          <button className='btn fs-2 text-primary'><IoIosDownload /></button>
+          <Edit/>
+          <Link to={'/history'}>
+            <button className='btn fs-3 text-primary'><MdHistory /></button>
+
+          </Link>
+          <Link to={'/resume'}>
+            <button className='btn text-primary'>Back</button>
+
+          </Link>
+        </Stack>
+      </Stack>
       <Box component="section" >
-        <Paper elevation={3} sx={{ p: 2, textAlign: 'center' }}>
+        <Paper elevation={3} sx={{ my: 5, p: 2, textAlign: 'center' }}>
           <h5>Name</h5>
           <h6>Job Title</h6>
           <p><span>location</span> | <span>Email</span> | <span>Phone</span></p>
@@ -34,10 +51,10 @@ function Preview() {
           <p><span>Company</span> | <span>Location</span> | <span>Duration</span></p>
 
           <Divider sx={{ fontSize: '18px' }}>Skills</Divider>
-          <Stack spacing={2} direction="row" flexWrap='wrap' className='m-3' sx={{  gap: '10px' }}>
+          <Stack spacing={2} direction="row" flexWrap='wrap' className='m-3' sx={{ gap: '10px' }}>
 
             <Button variant="contained">Skills</Button>
-          
+
 
           </Stack>
         </Paper>

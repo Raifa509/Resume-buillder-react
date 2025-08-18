@@ -9,7 +9,11 @@ import TextField from '@mui/material/TextField';
 
 //global variable
 const steps = ['Basic Information', 'Contact Details', 'Education Details', 'Work Experience', 'Skills & Certifications', 'Review & Submit'];
+
+
 function Steps() {
+
+  const skillSuggestionArray=['NODE JS','EXPRESS','MONGODB','REACT','ANGULAR','NEXT JS','BOOTSTRAP','TAILWIND','CSS','GIT','PYTHON']
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
 
@@ -103,11 +107,21 @@ function Steps() {
       case 4 : return(
         <div>
           <h3 className='mt-4'>Skills</h3>
-          <div className="d-flex row p-3">
-            <TextField id="standard-basic-name" label="Full Name" variant="standard" />
-            <TextField id="standard-basic-job" label="Job Title" variant="standard" />
-            <TextField id="standard-basic-location" label="Location" variant="standard" />
+          <div className="d-flex align-item-center justify-content-between p-3">
+            <TextField className='w-75' id="standard-basic-skill" label="Add Skills" variant="standard" />
+            <Button variant="text">Add</Button>
           </div>
+          <h5>Suggestions:</h5>
+          {/* duplicating */}
+          <div className="d-flex justify-content-between my-3 flex-wrap">
+            {
+              skillSuggestionArray.map((item)=>(
+                <Button key={item} variant="outlined" className='m-1'>{item}</Button>
+              ))
+            }
+          </div>
+          <h5>Added Skills :</h5>
+         <div className='d-flex flex-wrap justify-content-between my-3'> <span className='btn btn-primary d-flex align-items-center justify-content-center'>REACT<button className='btn text-light'>X</button></span></div>
         </div>
       )
       case 5 : return(
