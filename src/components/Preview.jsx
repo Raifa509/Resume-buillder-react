@@ -16,7 +16,7 @@ function Preview() {
       <Stack direction={'row'} sx={{ justifyContent: 'flex-end' }}>
         <Stack direction={'row'} sx={{ alignItems: 'center' }}>
           <button className='btn fs-2 text-primary'><IoIosDownload /></button>
-          <Edit/>
+          <Edit />
           <Link to={'/history'}>
             <button className='btn fs-3 text-primary'><MdHistory /></button>
 
