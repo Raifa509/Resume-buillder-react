@@ -7,12 +7,14 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import { useState,useRef } from 'react';
+import { addResumeAPI } from '../services/allAPI';
+import swal from 'sweetalert';
 
 //global variable
 const steps = ['Basic Information', 'Contact Details', 'Education Details', 'Work Experience', 'Skills & Certifications', 'Review & Submit'];
 
 
-function Steps({userInput,setUserInput}) {
+function Steps({userInput,setUserInput,setFinish}) {
 
   const skillSuggestionArray = ['NODE JS', 'EXPRESS', 'MONGODB', 'REACT', 'ANGULAR', 'NEXT JS', 'BOOTSTRAP', 'TAILWIND', 'CSS', 'GIT', 'PYTHON']
   const [activeStep, setActiveStep] = React.useState(0);
@@ -243,6 +245,34 @@ const removeSkill=(skill)=>{
 
     }
   }
+  //addResume
+  const handleAddResume=async ()=>{
+    // make api call
+    //all content of resume is in userInput
+    const {name,jobTitle,location}=userInput.personalData
+    if(name && jobTitle && location)
+    {
+      // alert('API called')
+      try{
+       const result= await addResumeAPI(userInput)
+       swal("Success!", "Resume added successfully!", "success");
+       setFinish(true)
+      }
+      catch(err){
+        console.log(err);
+        swal("Error!", "Resume added failed!", "error");
+        setFinish(false)
+
+        
+      }
+    }
+    else{
+      alert('fill the form first')
+    }
+ 
+  }
+
+
   return (
     <>
       <Box sx={{ width: '100%' }}>
@@ -297,9 +327,10 @@ const removeSkill=(skill)=>{
                   Skip
                 </Button>
               )}
-              <Button onClick={handleNext}>
-                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-              </Button>
+              
+              {activeStep === steps.length - 1 ?<Button onClick={handleAddResume}>Finish</Button> : <Button onClick={handleNext}>Next</Button>}
+
+         
             </Box>
           </React.Fragment>
         )}
