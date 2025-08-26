@@ -245,6 +245,8 @@ const removeSkill=(skill)=>{
 
     }
   }
+
+  
   //addResume
   const handleAddResume=async ()=>{
     // make api call

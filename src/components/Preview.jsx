@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { Link } from "react-router-dom";
@@ -8,24 +8,82 @@ import Button from '@mui/material/Button';
 import { IoIosDownload } from "react-icons/io";
 import { MdHistory } from "react-icons/md";
 import Edit from './Edit';
+import html2canvas from 'html2canvas'
+import {jsPDF} from 'jspdf'
+import {addDownloadHistoryAPI} from '../services/allAPI'
+
 
 
 function Preview({ userInput, finish }) {
   // console.log(userInput);
+
+  const [downloadStatus,setDownloadStatus]=useState(false)
+
+   const downloadCV=async()=>{
+    //get element for taking screenshot
+    //alert('download stated')
+
+    const input=document.getElementById('result')
+    const canvas=await html2canvas(input,{scale:2})
+    const imgURL=canvas.toDataURL('image/png')
+    //console.lof(imgURL);
+    const pdf=new jsPDF()
+    const pdfWidth=pdf.internal.pageSize.getWidth()
+    const pdfHeight=pdf.internal.pageSize.getHeight()
+
+    pdf.addImage(imgURL,'PNG',0,0,pdfWidth,pdfHeight)
+    pdf.save('resume.pdf')
+
+
+    //get date
+    const localTimeData=new Date()
+    const timeStamp=`${localTimeData.toLocaleDateString()},${localTimeData.toLocaleTimeString()}`
+    // console.log(timeStamp);
+    
+
+    //add download cv to json using api call
+    try{
+      const result =await addDownloadHistoryAPI({...userInput,imgURL,timeStamp})
+      console.log(result);
+       
+    }
+    catch(err){
+      console.log(err);
+     
+    }
+
+ setDownloadStatus(true)
+   }
+
+
   return (
     <>
 
       {
-        userInput.personalData.name != '' &&
+        userInput.personalData.name != "" &&
         <div className='d-flex flex-column'>
-         {finish && <Stack direction={'row'} sx={{ justifyContent: 'flex-end' }} style={{marginTop:'100px'}}>
+         { finish && <Stack direction={'row'} sx={{ justifyContent: 'flex-end' }} style={{marginTop:'100px'}}>
             <Stack direction={'row'} sx={{ alignItems: 'center' }}>
-              <button className='btn fs-2 text-primary'><IoIosDownload /></button>
-              <Edit />
-              <Link to={'/history'}>
-                <button className='btn fs-3 text-primary'><MdHistory /></button>
 
-              </Link>
+              {/* download */}
+              <button className='btn fs-2 text-primary' onClick={downloadCV}><IoIosDownload /></button>
+             
+             
+        { 
+        downloadStatus &&     
+          <>
+                {/* edit */}
+                <Edit />
+                {/* history */}
+                <Link to={'/history'}>
+                  <button className='btn fs-3 text-primary'><MdHistory /></button>
+  
+                </Link>
+              </>
+              }
+
+
+              {/* back */}
               <Link to={'/resume'}>
                 <button className='btn text-primary'>Back</button>
 
@@ -35,7 +93,7 @@ function Preview({ userInput, finish }) {
 
 
           <Box component="section" >
-            <Paper elevation={3} sx={{ my: 5, p: 2, textAlign: 'center' }}>
+            <Paper id="result" elevation={3} sx={{ my: 5, p: 2, textAlign: 'center' }}>
               <h5>{userInput.personalData.name}</h5>
               <h6>{userInput.personalData.jobTitle}</h6>
               <p><span>{userInput.personalData.location}</span> | <span>{userInput.personalData.email}</span> | <span>{userInput.personalData.phone}</span></p>
