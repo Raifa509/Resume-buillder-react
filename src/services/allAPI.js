@@ -10,8 +10,6 @@ export const addResumeAPI=async (resume)=>{
 
 
 
-
-
 //editResumeAPI -PUT
 
 
@@ -38,4 +36,10 @@ export const getHistoryAPI=async ()=>{
 //deleteHistoryAPI -DELETE - called by history when delete button is clicked
 export const deleteHistoryAPI=async (id)=>{
     return await commonAPI('DELETE',`${BASEURL}/history/${id}`,{})
+}
+
+
+// getAResumeAPI-GET called by edit component when its open in browser(useeffect)
+export const getAResumeAPI=async (id)=>{
+    return await commonAPI('GET',`${BASEURL}/all-resume/${id}`,{})
 }

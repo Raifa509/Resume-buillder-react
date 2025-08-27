@@ -14,7 +14,7 @@ import {addDownloadHistoryAPI} from '../services/allAPI'
 
 
 
-function Preview({ userInput, finish }) {
+function Preview({ userInput, finish,resumeId}) {
   // console.log(userInput);
 
   const [downloadStatus,setDownloadStatus]=useState(false)
@@ -26,7 +26,7 @@ function Preview({ userInput, finish }) {
     const input=document.getElementById('result')
     const canvas=await html2canvas(input,{scale:2})
     const imgURL=canvas.toDataURL('image/png')
-    //console.lof(imgURL);
+    //console.log(imgURL);
     const pdf=new jsPDF()
     const pdfWidth=pdf.internal.pageSize.getWidth()
     const pdfHeight=pdf.internal.pageSize.getHeight()
@@ -67,13 +67,13 @@ function Preview({ userInput, finish }) {
 
               {/* download */}
               <button className='btn fs-2 text-primary' onClick={downloadCV}><IoIosDownload /></button>
-             
+                  {/* edit */}
+                <Edit resumeId={resumeId}/>
              
         { 
         downloadStatus &&     
           <>
-                {/* edit */}
-                <Edit />
+           
                 {/* history */}
                 <Link to={'/history'}>
                   <button className='btn fs-3 text-primary'><MdHistory /></button>

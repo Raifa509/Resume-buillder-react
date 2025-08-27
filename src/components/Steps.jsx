@@ -14,7 +14,7 @@ import swal from 'sweetalert';
 const steps = ['Basic Information', 'Contact Details', 'Education Details', 'Work Experience', 'Skills & Certifications', 'Review & Submit'];
 
 
-function Steps({userInput,setUserInput,setFinish}) {
+function Steps({userInput,setUserInput,setFinish,setResumeId}) {
 
   const skillSuggestionArray = ['NODE JS', 'EXPRESS', 'MONGODB', 'REACT', 'ANGULAR', 'NEXT JS', 'BOOTSTRAP', 'TAILWIND', 'CSS', 'GIT', 'PYTHON']
   const [activeStep, setActiveStep] = React.useState(0);
@@ -235,7 +235,7 @@ const removeSkill=(skill)=>{
           <div className="d-flex row p-3">
             <TextField id="standard-basic-summary" label="Write a short summary of yourself" multiline rows={4} defaultValue={'Highly motivated and detail-oriented IT professional with a strong foundation in troubleshooting, system administration, and technical support. Demonstrates excellent problem-solving skills, adaptability, and a commitment to delivering reliable technology solutions. Skilled at working independently or in a team, with strong communication and time-management abilities. Dedicated to continuous learning and staying current with evolving industry trends.'} variant="standard" onChange={(e)=>setUserInput({
               ...userInput,summary:e.target.value
-            })} value={userInput.summary}/>
+            })}/>
 
           </div>
         </div>
@@ -257,6 +257,11 @@ const removeSkill=(skill)=>{
       // alert('API called')
       try{
        const result= await addResumeAPI(userInput)
+      //  console.log(result);
+
+      setResumeId(result?.data?.id)
+      // console.log(result?.data?.id);
+      
        swal("Success!", "Resume added successfully!", "success");
        setFinish(true)
       }

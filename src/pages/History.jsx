@@ -6,7 +6,7 @@ import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { MdDelete } from "react-icons/md";
-import { getHistoryAPI } from '../services/allAPI';
+import { deleteHistoryAPI, getHistoryAPI } from '../services/allAPI';
 
 function History() {
 
@@ -14,7 +14,7 @@ function History() {
 
   useEffect(()=>{
     getHistory()
-  },[])
+  },[resume])
 
   const getHistory=async()=>{
     try{
@@ -28,9 +28,19 @@ function History() {
       
     }
   }
-
-  console.log(resume);
+  // console.log(resume);
   
+  const handleRemoveHistory=async (id)=>{
+    try{
+      await deleteHistoryAPI(id)
+      getHistory()
+    }catch(err){
+      console.log(err);
+      
+    }
+  }
+
+
   return (
     <div>
      <div className=''>
@@ -47,7 +57,7 @@ function History() {
             <Paper elevation={3} sx={{ my: 5, p: 2, textAlign: 'center' }}>
               <div className='d-flex justify-content-evenly align-items-center'>
                 <h6 className='ms-5'>Review At : <br /> {item?.timeStamp}</h6>
-                <button className='btn text-danger fs-5 ms-5'><MdDelete /></button>
+                <button onClick={()=>handleRemoveHistory(item?.id)} className='btn text-danger fs-5 ms-5'><MdDelete /></button>
               </div>
              <div className='border rounded p-3'>
               <img className='img-fluid' src={item?.imgURL} alt="" />
