@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { Link } from "react-router-dom";
@@ -14,10 +14,12 @@ import {addDownloadHistoryAPI} from '../services/allAPI'
 
 
 
-function Preview({ userInput, finish,resumeId}) {
+function Preview({ userInput, finish,resumeId,setUserInput}) {
   // console.log(userInput);
 
   const [downloadStatus,setDownloadStatus]=useState(false)
+
+
 
    const downloadCV=async()=>{
     //get element for taking screenshot
@@ -68,7 +70,7 @@ function Preview({ userInput, finish,resumeId}) {
               {/* download */}
               <button className='btn fs-2 text-primary' onClick={downloadCV}><IoIosDownload /></button>
                   {/* edit */}
-                <Edit resumeId={resumeId}/>
+                <Edit resumeId={resumeId} setUpdateUserInput={setUserInput}/>
              
         { 
         downloadStatus &&     

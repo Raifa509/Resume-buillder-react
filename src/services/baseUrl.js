@@ -1,4 +1,4 @@
-export const BASEURL='http://localhost:3000'
+export const BASEURL=' https://resume-buillder-server.onrender.com'
 
 // or
 // export default BASEURL

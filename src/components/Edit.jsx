@@ -5,7 +5,8 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { MdEditDocument } from "react-icons/md";
 import TextField from '@mui/material/TextField';
-import { getAResumeAPI } from '../services/allAPI';
+import { getAResumeAPI,editResumeAPI } from '../services/allAPI';
+import swal from 'sweetalert';
 
 const style = {
     position: 'absolute',
@@ -22,8 +23,9 @@ const style = {
 };
 
 
-function Edit({ resumeId }) {
+function Edit({ resumeId,setUpdateUserInput}) {
 
+    const [userSkill,setUserSkill]=React.useState('') //input from text box is string
     const [userInput, setUserInput] = React.useState({})
 
     const [open, setOpen] = React.useState(false);
@@ -46,9 +48,42 @@ function Edit({ resumeId }) {
         }
     }
 
+    //modal
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    // button add
+    const addSkill=()=>{
+        if(userSkill){
+            if(userInput.skills.includes(userSkill)){
+                alert("Given skill is already existing!!! Add another...")
+            }else{
+                setUserInput({...userInput,skills:[...userInput.skills,userSkill]})
+            }
+            setUserSkill('')
+        }
+    }
+
+    const removeSkill=(skill)=>{
+  setUserInput({...userInput,skills:userInput.skills.filter(item=>item!=skill)})
+}
+
+const handleResumeUpdate=async()=>{
+    try{
+
+        const result=await editResumeAPI(userInput?.id,userInput)
+        setUpdateUserInput(result?.data)
+        swal("Success!", "Resume updated successfully!", "success");
+        handleClose()//to close modal
+
+        
+
+    }catch(err)
+    {
+        console.log(err);
+        
+    }
+}
     return (
         <>
             <button onClick={handleOpen} className='btn fs-3 text-primary'><MdEditDocument /></button>
@@ -133,20 +168,36 @@ function Edit({ resumeId }) {
                         <h4>Skills</h4>
 
                         <div className="d-flex align-item-center justify-content-between p-3">
-                            <TextField className='w-75' id="standard-basic-skill" label="Add Skills" variant="standard" />
-                            <Button variant="text">Add</Button>
+
+            
+                            <TextField onChange={e=>setUserSkill(e.target.value)} sx={{width:'400px'}} id='standard-basic-skill' label="Add Skills" variant='standard' value={userSkill}/>
+                            <Button onClick={addSkill}  variant="text">Add</Button>
                         </div>
-                        <h6>Added Skills :</h6>
-                        <div className='d-flex flex-wrap justify-content-between my-3'> <span className='btn btn-outline-primary d-flex align-items-center justify-content-center'>REACT<button className='btn text-light'>X</button></span></div>
+
+                        <h5>Added Skills :</h5>
+                        <div className='d-flex flex-wrap justify-content-between my-3'>
+                            {/* ADDING SKILL DISPLAY */}
+                            {
+
+                                userInput?.skills?.length > 0 &&
+                                userInput?.skills?.map(item => (
+                                    <span className='btn btn-primary d-flex align-items-center justify-content-center mb-3'>{item}<button onClick={() => removeSkill(item)} className='btn text-light' >X</button></span>
+                                ))
+
+                            }
+
+                        </div>
 
                         {/* summary */}
                         <h4 className='mt-4'>Professional Summary</h4>
                         <div className="d-flex row p-3">
-                            <TextField id="standard-basic-summary" label="Write a short summary of yourself" multiline rows={4} variant="standard" />
+                            <TextField id="standard-basic-summary" label="Write a short summary of yourself" multiline rows={4} variant="standard" onChange={e=>setUserInput({
+                                ...userInput,summary:e.target.value
+                            })} value={userInput?.summary}/>
 
                         </div>
                     </Typography>
-                    <div className='text-center mt-4'><button className="btn btn-outline-dark ">Update</button></div>
+                    <div className='text-center mt-4'><button className="btn btn-outline-dark " onClick={handleResumeUpdate}>Update</button></div>
                 </Box>
             </Modal>
         </>

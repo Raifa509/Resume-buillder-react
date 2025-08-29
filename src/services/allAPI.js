@@ -10,10 +10,10 @@ export const addResumeAPI=async (resume)=>{
 
 
 
-//editResumeAPI -PUT
-
-
-
+//editResumeAPI -PUT -called by edit component when update button clicked
+export const editResumeAPI=async(id,resume)=>{
+    return await commonAPI('PUT',`${BASEURL}/all-resume/${id}`,resume)
+}
 
 
 
